@@ -16,7 +16,7 @@ if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
 require(gdata)
 cell.info <- read.xls(file.path(path.cell, "gdsc1000_cellinfo.xlsx"),  sheet=1 )
 cell.info <- cell.info[-nrow(cell.info),]
-cell_all <- read.csv("/pfs/annotation/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
+cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 cellcuration <- cell_all[,c("CGP.cellid", "GDSC.SNP.cellid", "CGP_EMTAB3610.cellid", "unique.cellid")]
 EMTAB3610_matches <- match(toupper(gsub(pattern=badchars, "", x=cell.info$Sample.Name)), toupper(gsub(pattern=badchars, "", x=cellcuration[,"CGP_EMTAB3610.cellid"])))
 SNP_matches <- match(toupper(gsub(pattern=badchars, "", x=cell.info$Sample.Name)), toupper(gsub(pattern=badchars, "", x=cellcuration[,"GDSC.SNP.cellid"])))
