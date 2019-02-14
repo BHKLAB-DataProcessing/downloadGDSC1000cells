@@ -1,21 +1,24 @@
 install.packages("readxl")
 library("readxl")
-path.cell = "/pfs/out"
 require(downloader)
+
+tmpdir <- tempdir()
 
 cellFileURL <- "ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/"
 cellFileName <- "Cell_Lines_Details.xlsx"
 
+## TODO:: Make it download into tmpdir first
+
 ## download sample information
 message("Download cell info")
-myfn <- file.path(path.cell, "gdsc1000_cellinfo.xlsx")
+myfn <- file.path(tmpdir, "gdsc1000_cellinfo.xlsx")
 
-dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL,cellFileName), destfile=file.path(path.cell,cellFileName), quiet=TRUE)
+dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL,cellFileName), destfile=file.path(tmpdir,cellFileName), quiet=TRUE)
 if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
 
 
 require(gdata)
-cell.info <- as.data.frame(read_excel(file.path(path.cell, "gdsc1000_cellinfo.xlsx"),  sheet=1 ))
+cell.info <- as.data.frame(read_excel(file.path(tmpdir, "gdsc1000_cellinfo.xlsx"),  sheet=1 ))
 cell.info <- cell.info[-nrow(cell.info),]
 cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 cellcuration <- cell_all[,c("CGP.cellid", "GDSC.SNP.cellid", "CGP_EMTAB3610.cellid", "unique.cellid")]
@@ -45,3 +48,4 @@ cell.info$cellid[!is.na(matches)] <- cell_all$unique.cellid[na.omit(matches)]
 cell.info$cellid[grep("KM-H2", cell.info$cellid)] <- cell.info$Sample.Name[grep("KM-H2", cell.info$cellid)]
 cell.info$cellid[grep("^T[-]T$", cell.info$Sample.Name)] <- "T.T"
 cell.info$cellid[grep("^TT$", cell.info$Sample.Name)] <- "TT"
+save(cell.info, file="/pfs/out/cellInfo.RData")
