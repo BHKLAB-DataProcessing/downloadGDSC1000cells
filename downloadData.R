@@ -2,6 +2,9 @@ install.packages("readxl")
 library("readxl")
 require(downloader)
 
+badchars <- "[\xb5]|[]|[,]|[;]|[:]|[-]|[+]|[*]|[%]|[$]|[#]|[{]|[}]|[[]|[]]|[|]|[\\^]|[/]|[\\]|[.]|[_]|[ ]"
+
+
 my.dir <- "/pfs/out"
 
 cellFileURL <- "ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/"
