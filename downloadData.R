@@ -1,7 +1,7 @@
 install.packages("readxl")
 library("readxl")
 require(downloader)
-
+options(stringsAsFactors=FALSE)
 badchars <- "[\xb5]|[]|[,]|[;]|[:]|[-]|[+]|[*]|[%]|[$]|[#]|[{]|[}]|[[]|[]]|[|]|[\\^]|[/]|[\\]|[.]|[_]|[ ]"
 
 
@@ -19,8 +19,8 @@ dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL,cellFileName), destf
 if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
 
 
-require(gdata)
-cell.info <- as.data.frame(read_excel(myfn,  sheet=1))
+# require(gdata)
+cell.info <- as.data.frame(read_excel(myfn,  sheet=1, .name_repair =  make.names))
 cell.info <- cell.info[-nrow(cell.info),]
 cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 cellcuration <- cell_all[,c("CGP.cellid", "GDSC.SNP.cellid", "CGP_EMTAB3610.cellid", "unique.cellid")]
