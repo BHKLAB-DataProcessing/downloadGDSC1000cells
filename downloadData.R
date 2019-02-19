@@ -18,7 +18,7 @@ if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
 
 
 require(gdata)
-cell.info <- as.data.frame(read_excel(file.path(tmpdir, "gdsc1000_cellinfo.xlsx"),  sheet=1 ))
+cell.info <- as.data.frame(read_excel(myfn,  sheet=1))
 cell.info <- cell.info[-nrow(cell.info),]
 cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 cellcuration <- cell_all[,c("CGP.cellid", "GDSC.SNP.cellid", "CGP_EMTAB3610.cellid", "unique.cellid")]
