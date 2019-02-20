@@ -3,7 +3,7 @@ library("readxl")
 require(downloader)
 options(stringsAsFactors=FALSE)
 badchars <- "[\xb5]|[]|[,]|[;]|[:]|[-]|[+]|[*]|[%]|[$]|[#]|[{]|[}]|[[]|[]]|[|]|[\\^]|[/]|[\\]|[.]|[_]|[ ]"
-
+sessionInfo()
 
 my.dir <- "/pfs/out"
 
@@ -17,6 +17,7 @@ myfn <- file.path(my.dir, "gdsc1000_cellinfo.xlsx")
 
 dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL,cellFileName), destfile=myfn, quiet=TRUE)
 if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
+
 
 
 # require(gdata)
