@@ -28,12 +28,14 @@ cell.info <- cell.info[-NROW(cell.info),]
 cell.info <- as.data.frame(read_excel(myfn,  sheet=1, .name_repair =  make.names))
 cell.info <- cell.info[-nrow(cell.info),]
 
+cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
+
+
 cell.info$unique.cellid <-  cell.all[match(cell.info[,"Sample Name"], cell.all[,"GDSC1000.cellid"]),"unique.cellid"]
 save(cell.info, file="/pfs/out/cellInfo.RData")
 
 
 
-# cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 # cellcuration <- cell_all[,c("CGP.cellid", "GDSC.SNP.cellid", "CGP_EMTAB3610.cellid", "unique.cellid")]
 # EMTAB3610_matches <- match(toupper(gsub(pattern=badchars, "", x=cell.info$Sample.Name)), toupper(gsub(pattern=badchars, "", x=cellcuration[,"CGP_EMTAB3610.cellid"])))
 # SNP_matches <- match(toupper(gsub(pattern=badchars, "", x=cell.info$Sample.Name)), toupper(gsub(pattern=badchars, "", x=cellcuration[,"GDSC.SNP.cellid"])))
