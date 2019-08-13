@@ -19,14 +19,12 @@ dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL,cellFileName), destf
 if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
 
 
-cell.info <- as.data.frame(file.path(my.dir, "gdsc_cellinfo.xlsx"))
-## Last row is a total summation row
-cell.info <- cell.info[-NROW(cell.info),]
 
 
 # require(gdata)
 cell.info <- as.data.frame(read_excel(myfn,  sheet=1, .name_repair =  make.names))
 cell.info <- cell.info[-nrow(cell.info),]
+## Last row is a total summation row
 
 cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 
