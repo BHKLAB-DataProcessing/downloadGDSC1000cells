@@ -29,7 +29,7 @@ cell.info <- cell.info[-nrow(cell.info),]
 cell.all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 
 
-cell.info$unique.cellid <-  cell.all[match(cell.info[,"Sample Name"], cell.all[,"GDSC1000.cellid"]),"unique.cellid"]
+cell.info$unique.cellid <-  cell.all[match(cell.info[,"Sample.Name"], cell.all[,"GDSC1000.cellid"]),"unique.cellid"]
 save(cell.info, file="/pfs/out/cellInfo.RData")
 
 
