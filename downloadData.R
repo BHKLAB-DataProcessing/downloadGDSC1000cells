@@ -26,7 +26,7 @@ cell.info <- as.data.frame(read_excel(myfn,  sheet=1, .name_repair =  make.names
 cell.info <- cell.info[-nrow(cell.info),]
 ## Last row is a total summation row
 
-cell_all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
+cell.all <- read.csv("/pfs/downAnnotations/cell_annotation_all.csv", na.strings=c("", " ", "NA"))
 
 
 cell.info$unique.cellid <-  cell.all[match(cell.info[,"Sample Name"], cell.all[,"GDSC1000.cellid"]),"unique.cellid"]
