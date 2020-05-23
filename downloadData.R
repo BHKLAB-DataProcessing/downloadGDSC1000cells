@@ -10,18 +10,23 @@ my.dir <- "/pfs/out"
 cellFileURL <- "ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-8.0/"
 cellFileName <- "Cell_Lines_Details.xlsx"
 
+cellFileURL_8.2 <- "ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-8.2/"
+cellFileName_8.2 <- "Cell_Lines_Details.xlsx"
 
 ## download sample information
 message("Download cell info")
 myfn <- file.path(my.dir, "gdsc_cellinfo.xlsx")
+myf2 <- file.path(my.dir, "gdsc_cellinfo.xlsx")
 
 dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL,cellFileName), destfile=myfn, quiet=TRUE)
 if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
 
-
+dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL_8.2,cellFileName_8.2), destfile=myfn2, quiet=TRUE)
+if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
 
 
 # require(gdata)
+#ver 8.0 cell data (July 2019)
 cell.info <- as.data.frame(read_excel(myfn,  sheet=1, .name_repair =  make.names))
 cell.info <- cell.info[-nrow(cell.info),]
 ## Last row is a total summation row
@@ -34,7 +39,11 @@ save(cell.info, file="/pfs/out/cellInfo.RData")
 
 
 
-
+#ver 8.2 cell data (Feb 2020)
+cell.info <- as.data.frame(read_excel(myfn2,  sheet=1, .name_repair =  make.names))
+cell.info <- cell.info[-nrow(cell.info),]
+cell.info$unique.cellid <-  cell.all[match(cell.info[,"Sample.Name"], cell.all[,"GDSC1000.cellid"]),"unique.cellid"]
+save(cell.info, file="/pfs/out/cellInfo_8.2.RData")
 
 # cellcuration <- cell_all[,c("CGP.cellid", "GDSC.SNP.cellid", "CGP_EMTAB3610.cellid", "unique.cellid")]
 # EMTAB3610_matches <- match(toupper(gsub(pattern=badchars, "", x=cell.info$Sample.Name)), toupper(gsub(pattern=badchars, "", x=cellcuration[,"CGP_EMTAB3610.cellid"])))
