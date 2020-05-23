@@ -16,7 +16,7 @@ cellFileName_8.2 <- "Cell_Lines_Details.xlsx"
 ## download sample information
 message("Download cell info")
 myfn <- file.path(my.dir, "gdsc_cellinfo.xlsx")
-myf2 <- file.path(my.dir, "gdsc_cellinfo.xlsx")
+myfn2 <- file.path(my.dir, "gdsc_cellinfo.xlsx")
 
 dwl.status <- download.file(url=sprintf("%s/%s",cellFileURL,cellFileName), destfile=myfn, quiet=TRUE)
 if(dwl.status != 0) { stop("Download failed, please rerun the pipeline!") }
